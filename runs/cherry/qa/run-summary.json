@@ -1,0 +1,10 @@
+﻿{
+  "ok": true,
+  "run_dir": "runs/cherry",
+  "spritesheet": "runs/cherry/final/spritesheet.webp",
+  "validation": "runs/cherry/final/validation.json",
+  "contact_sheet": "runs/cherry/qa/contact-sheet.png",
+  "review": "runs/cherry/qa/review.json",
+  "videos": null,
+  "package": "pets/cherry"
+}
