@@ -1,0 +1,10 @@
+{
+  "ok": true,
+  "run_dir": "runs/lumo",
+  "spritesheet": "runs/lumo/final/spritesheet.webp",
+  "validation": "runs/lumo/final/validation.json",
+  "contact_sheet": "runs/lumo/qa/contact-sheet.png",
+  "review": "runs/lumo/qa/review.json",
+  "videos": null,
+  "package": "pets/lumo"
+}
