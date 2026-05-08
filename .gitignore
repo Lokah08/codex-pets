@@ -4,3 +4,4 @@ Thumbs.db
 runs/*/decoded/
 runs/*/frames/
 runs/*/references/
+cat typing*.png

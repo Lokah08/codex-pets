@@ -22,10 +22,12 @@ Installable files live in `pets/lumo/`:
 - `pet.json`
 - `spritesheet.webp`
 
-Copy `pets/cherry/` into your Codex pets folder:
+Lumo uses the standard Codex pet atlas layout, with the Jumping row previewed as Typing and the Running row previewed as FastTyping.
+
+Copy a pet package into your Codex pets folder:
 
 ```text
-%USERPROFILE%\.codex\pets\cherry
+%USERPROFILE%\.codex\pets\<pet-id>
 ```
 
 ## Repository Layout

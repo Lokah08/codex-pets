@@ -221,6 +221,13 @@
       review: { label: "Review", row: 8, frames: 6, duration: 160 },
     };
 
+    const petStateOverrides = {
+      lumo: {
+        jumping: { label: "Typing", duration: 420 },
+        running: { label: "FastTyping", duration: 85 },
+      },
+    };
+
     const stateIds = Object.keys(states);
     const petControls = document.querySelector("#petControls");
     const stateControls = document.querySelector("#stateControls");
@@ -242,6 +249,13 @@
       return button;
     }
 
+    function stateForPet(stateId) {
+      return {
+        ...states[stateId],
+        ...(petStateOverrides[selectedPet]?.[stateId] ?? {}),
+      };
+    }
+
     function renderControls() {
       petControls.replaceChildren(...pets.map((pet) =>
         makeButton(pet.name, pet.id === selectedPet, () => {
@@ -252,7 +266,7 @@
       ));
 
       stateControls.replaceChildren(...stateIds.map((stateId) =>
-        makeButton(states[stateId].label, stateId === selectedState, () => {
+        makeButton(stateForPet(stateId).label, stateId === selectedState, () => {
           selectedState = stateId;
           frameIndex = 0;
           render();
@@ -268,7 +282,7 @@
 
     function renderSprite() {
       const pet = pets.find((item) => item.id === selectedPet);
-      const state = states[selectedState];
+      const state = stateForPet(selectedState);
       sprite.style.backgroundImage = `url("${pet.url}")`;
       sprite.style.backgroundPosition = backgroundPosition(state, frameIndex);
       title.textContent = `${pet.name} / ${state.label}`;
@@ -280,10 +294,10 @@
       renderSprite();
       window.clearInterval(timer);
       timer = window.setInterval(() => {
-        const state = states[selectedState];
+        const state = stateForPet(selectedState);
         frameIndex = (frameIndex + 1) % state.frames;
         renderSprite();
-      }, states[selectedState].duration);
+      }, stateForPet(selectedState).duration);
     }
 
     render();

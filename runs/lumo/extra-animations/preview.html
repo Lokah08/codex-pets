@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lumo Extra Animation Preview</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #1e1c1c;
+      --panel: #2a2429;
+      --border: #51404d;
+      --text: #ffe5fb;
+      --muted: #bd90b6;
+      --accent: #e877ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    main {
+      display: grid;
+      min-height: 100vh;
+      grid-template-columns: 280px minmax(0, 1fr);
+    }
+
+    aside {
+      padding: 24px;
+      border-right: 1px solid var(--border);
+      background: var(--panel);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 22px;
+    }
+
+    p {
+      margin: 0 0 22px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      min-height: 42px;
+      margin-bottom: 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #352b33;
+      color: var(--text);
+      cursor: pointer;
+      font: inherit;
+      text-align: left;
+      padding: 8px 12px;
+    }
+
+    button[aria-pressed="true"] {
+      border-color: var(--accent);
+      background: #5b3b5f;
+    }
+
+    .stage {
+      display: grid;
+      min-height: 100vh;
+      place-items: center;
+      padding: 32px;
+    }
+
+    .panel {
+      display: grid;
+      justify-items: center;
+      gap: 18px;
+      width: min(920px, 100%);
+    }
+
+    .title {
+      color: var(--accent);
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .viewport {
+      display: grid;
+      width: min(820px, 100%);
+      min-height: 430px;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background:
+        linear-gradient(45deg, #282229 25%, transparent 25%),
+        linear-gradient(-45deg, #282229 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #282229 75%),
+        linear-gradient(-45deg, transparent 75%, #282229 75%),
+        #211d20;
+      background-position: 0 0, 0 14px, 14px -14px, -14px 0;
+      background-size: 28px 28px;
+    }
+
+    .sprite {
+      width: 360px;
+      aspect-ratio: 1 / 1;
+      image-rendering: pixelated;
+      background-repeat: no-repeat;
+      background-size: auto 100%;
+      transform: scale(1.35);
+      transform-origin: center;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 760px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      aside {
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .stage {
+        min-height: auto;
+        padding: 20px;
+      }
+
+      .sprite {
+        width: 260px;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <aside>
+      <h1>Lumo Extra Preview</h1>
+      <p>Preview-only rows. They do not replace the current Codex pet atlas yet.</p>
+      <div id="controls"></div>
+    </aside>
+
+    <section class="stage">
+      <div class="panel">
+        <div class="title" id="title"></div>
+        <div class="viewport">
+          <div class="sprite" id="sprite" aria-hidden="true"></div>
+        </div>
+        <div class="meta" id="meta"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const animations = [
+      {
+        id: "typing",
+        label: "Typing",
+        file: "typing-strip-v4.png",
+        frames: 5,
+        duration: 420,
+      },
+      {
+        id: "fast-typing",
+        label: "FastTyping",
+        file: "fast-typing-strip-v4.png",
+        frames: 6,
+        duration: 85,
+      },
+    ];
+
+    const controls = document.querySelector("#controls");
+    const sprite = document.querySelector("#sprite");
+    const title = document.querySelector("#title");
+    const meta = document.querySelector("#meta");
+
+    let selected = animations[0];
+    let frame = 0;
+    let timer = null;
+
+    function renderButtons() {
+      controls.replaceChildren(...animations.map((animation) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = animation.label;
+        button.setAttribute("aria-pressed", String(animation.id === selected.id));
+        button.addEventListener("click", () => {
+          selected = animation;
+          frame = 0;
+          render();
+        });
+        return button;
+      }));
+    }
+
+    function framePosition(index, total) {
+      return total <= 1 ? "0% 50%" : `${index / (total - 1) * 100}% 50%`;
+    }
+
+    function renderSprite() {
+      sprite.style.backgroundImage = `url("${selected.file}")`;
+      sprite.style.backgroundSize = `${selected.frames * 100}% 100%`;
+      sprite.style.backgroundPosition = framePosition(frame, selected.frames);
+      title.textContent = `Lumo / ${selected.label}`;
+      meta.textContent = `${selected.frames} frames`;
+    }
+
+    function render() {
+      renderButtons();
+      renderSprite();
+      window.clearInterval(timer);
+      timer = window.setInterval(() => {
+        frame = (frame + 1) % selected.frames;
+        renderSprite();
+      }, selected.duration);
+    }
+
+    render();
+  </script>
+</body>
+</html>

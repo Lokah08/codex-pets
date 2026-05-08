@@ -179,13 +179,13 @@
   ],
   "references": [
     {
-      "path": "E:\\code_kun\\codex-pets\\runs\\lumo\\references\\reference-01.png",
+      "path": "runs/lumo/references\\reference-01.png",
       "width": 1254,
       "height": 1254,
       "mode": "RGB",
       "format": "PNG",
-      "source_path": "E:\\code_kun\\codex-pets\\source\\lumo\\lumo.png",
-      "copied_path": "E:\\code_kun\\codex-pets\\runs\\lumo\\references\\reference-01.png"
+      "source_path": "source/lumo/lumo.png",
+      "copied_path": "runs/lumo/references\\reference-01.png"
     }
   ],
   "chroma_key": {

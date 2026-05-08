@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "file": "E:\\code_kun\\codex-pets\\runs\\lumo\\final\\spritesheet.webp",
+  "file": "runs/lumo/final\\spritesheet.webp",
   "format": "WEBP",
   "mode": "RGBA",
   "width": 1536,
@@ -237,35 +237,35 @@
       "row": 4,
       "column": 0,
       "used": true,
-      "nontransparent_pixels": 30408
+      "nontransparent_pixels": 25584
     },
     {
       "state": "jumping",
       "row": 4,
       "column": 1,
       "used": true,
-      "nontransparent_pixels": 25871
+      "nontransparent_pixels": 25525
     },
     {
       "state": "jumping",
       "row": 4,
       "column": 2,
       "used": true,
-      "nontransparent_pixels": 26587
+      "nontransparent_pixels": 25249
     },
     {
       "state": "jumping",
       "row": 4,
       "column": 3,
       "used": true,
-      "nontransparent_pixels": 25829
+      "nontransparent_pixels": 24840
     },
     {
       "state": "jumping",
       "row": 4,
       "column": 4,
       "used": true,
-      "nontransparent_pixels": 26632
+      "nontransparent_pixels": 25075
     },
     {
       "state": "jumping",
@@ -405,42 +405,42 @@
       "row": 7,
       "column": 0,
       "used": true,
-      "nontransparent_pixels": 22403
+      "nontransparent_pixels": 24975
     },
     {
       "state": "running",
       "row": 7,
       "column": 1,
       "used": true,
-      "nontransparent_pixels": 22114
+      "nontransparent_pixels": 24213
     },
     {
       "state": "running",
       "row": 7,
       "column": 2,
       "used": true,
-      "nontransparent_pixels": 23583
+      "nontransparent_pixels": 24784
     },
     {
       "state": "running",
       "row": 7,
       "column": 3,
       "used": true,
-      "nontransparent_pixels": 22207
+      "nontransparent_pixels": 24099
     },
     {
       "state": "running",
       "row": 7,
       "column": 4,
       "used": true,
-      "nontransparent_pixels": 22285
+      "nontransparent_pixels": 24590
     },
     {
       "state": "running",
       "row": 7,
       "column": 5,
       "used": true,
-      "nontransparent_pixels": 22846
+      "nontransparent_pixels": 23712
     },
     {
       "state": "running",
