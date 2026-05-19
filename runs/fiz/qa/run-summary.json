@@ -1,0 +1,10 @@
+{
+  "ok": true,
+  "run_dir": "E:\\code_kun\\codex-pets\\runs\\fiz",
+  "spritesheet": "E:\\code_kun\\codex-pets\\runs\\fiz\\final\\spritesheet.webp",
+  "validation": "E:\\code_kun\\codex-pets\\runs\\fiz\\final\\validation.json",
+  "contact_sheet": "E:\\code_kun\\codex-pets\\runs\\fiz\\qa\\contact-sheet.png",
+  "review": "E:\\code_kun\\codex-pets\\runs\\fiz\\qa\\review.json",
+  "videos": null,
+  "package": "E:\\code_kun\\codex-pets\\pets\\Fiz"
+}

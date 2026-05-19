@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fiz Pet Preview</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #171918;
+      --panel: #222625;
+      --panel-soft: #2b302f;
+      --text: #eef9f5;
+      --muted: #9fb5ae;
+      --accent: #49e0bd;
+      --accent-2: #ffd742;
+      --danger: #ff5b59;
+      --border: #3c4744;
+      --cell-w: 192px;
+      --cell-h: 208px;
+      --scale: 1.85;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 75% 12%, rgb(255 215 66 / 0.08), transparent 28%),
+        linear-gradient(135deg, #171918 0%, #1f2422 48%, #151615 100%);
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    main {
+      display: grid;
+      min-height: 100vh;
+      grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+    }
+
+    aside {
+      border-right: 1px solid var(--border);
+      background: rgb(34 38 37 / 0.94);
+      padding: 24px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      color: var(--accent);
+      font-size: 28px;
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 0 0 24px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .group {
+      margin-top: 22px;
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .controls {
+      display: grid;
+      gap: 8px;
+    }
+
+    button {
+      min-height: 38px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel-soft);
+      color: var(--text);
+      cursor: pointer;
+      font: inherit;
+      text-align: left;
+      padding: 8px 10px;
+    }
+
+    button:hover {
+      border-color: color-mix(in srgb, var(--accent), var(--border) 35%);
+      color: white;
+    }
+
+    button[aria-pressed="true"] {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 18%, var(--panel-soft));
+      color: white;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+    }
+
+    .range-value {
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .stage-wrap {
+      display: grid;
+      min-height: 100vh;
+      place-items: center;
+      padding: 36px;
+    }
+
+    .stage {
+      display: grid;
+      width: min(760px, 100%);
+      justify-items: center;
+      gap: 22px;
+    }
+
+    .pet-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--danger);
+      box-shadow: 0 0 0 4px rgb(255 91 89 / 0.12);
+    }
+
+    .viewport {
+      display: grid;
+      width: min(100%, 600px);
+      min-height: 440px;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background:
+        linear-gradient(45deg, #242827 25%, transparent 25%),
+        linear-gradient(-45deg, #242827 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #242827 75%),
+        linear-gradient(-45deg, transparent 75%, #242827 75%),
+        #1b1f1e;
+      background-position: 0 0, 0 14px, 14px -14px, -14px 0;
+      background-size: 28px 28px;
+      overflow: hidden;
+    }
+
+    .sprite {
+      width: var(--cell-w);
+      height: var(--cell-h);
+      image-rendering: pixelated;
+      background-image: url("pets/Fiz/spritesheet.webp");
+      background-repeat: no-repeat;
+      background-size: 800% 900%;
+      transform: scale(var(--scale));
+      transform-origin: center;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 760px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      aside {
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .stage-wrap {
+        min-height: auto;
+        padding: 24px 16px;
+      }
+
+      .viewport {
+        min-height: 340px;
+      }
+
+      :root {
+        --scale: 1.25;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <aside>
+      <h1>Fiz Preview</h1>
+      <p class="subtitle">Watch Fiz's sprite states using the packaged sheet.</p>
+
+      <section class="group" aria-labelledby="state-label">
+        <span class="label" id="state-label">State</span>
+        <div class="controls" id="stateControls"></div>
+      </section>
+
+      <section class="group" aria-labelledby="playback-label">
+        <span class="label" id="playback-label">Playback</span>
+        <div class="split">
+          <button type="button" id="pauseButton" aria-pressed="false">Pause</button>
+          <button type="button" id="stepButton">Step</button>
+        </div>
+      </section>
+
+      <section class="group" aria-labelledby="speed-label">
+        <span class="label" id="speed-label">Speed <span class="range-value" id="speedValue"></span></span>
+        <input type="range" id="speed" min="60" max="420" step="10" value="150">
+      </section>
+
+      <section class="group" aria-labelledby="scale-label">
+        <span class="label" id="scale-label">Scale <span class="range-value" id="scaleValue"></span></span>
+        <input type="range" id="scale" min="100" max="240" step="5" value="185">
+      </section>
+    </aside>
+
+    <section class="stage-wrap">
+      <div class="stage">
+        <div class="pet-title">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span id="title"></span>
+        </div>
+        <div class="viewport">
+          <div class="sprite" id="sprite" aria-label="Animated Fiz sprite" role="img"></div>
+        </div>
+        <div class="meta" id="meta"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const states = {
+      idle: { label: "Idle", row: 0, frames: 6, duration: 150 },
+      "running-right": { label: "Running Right", row: 1, frames: 8, duration: 120 },
+      "running-left": { label: "Running Left", row: 2, frames: 8, duration: 120 },
+      waving: { label: "Waving", row: 3, frames: 4, duration: 160 },
+      jumping: { label: "Jumping", row: 4, frames: 5, duration: 150 },
+      failed: { label: "Failed", row: 5, frames: 8, duration: 170 },
+      waiting: { label: "Waiting", row: 6, frames: 6, duration: 170 },
+      running: { label: "Running", row: 7, frames: 6, duration: 120 },
+      review: { label: "Review", row: 8, frames: 6, duration: 160 },
+    };
+
+    const stateIds = Object.keys(states);
+    const stateControls = document.querySelector("#stateControls");
+    const sprite = document.querySelector("#sprite");
+    const title = document.querySelector("#title");
+    const meta = document.querySelector("#meta");
+    const pauseButton = document.querySelector("#pauseButton");
+    const stepButton = document.querySelector("#stepButton");
+    const speed = document.querySelector("#speed");
+    const speedValue = document.querySelector("#speedValue");
+    const scale = document.querySelector("#scale");
+    const scaleValue = document.querySelector("#scaleValue");
+
+    let selectedState = "idle";
+    let frameIndex = 0;
+    let timer = null;
+    let paused = false;
+
+    function makeButton(text, pressed, onClick) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = text;
+      button.setAttribute("aria-pressed", String(pressed));
+      button.addEventListener("click", onClick);
+      return button;
+    }
+
+    function backgroundPosition(state, frame) {
+      const x = frame / 7 * 100;
+      const y = state.row / 8 * 100;
+      return `${x}% ${y}%`;
+    }
+
+    function renderControls() {
+      stateControls.replaceChildren(...stateIds.map((stateId) =>
+        makeButton(states[stateId].label, stateId === selectedState, () => {
+          selectedState = stateId;
+          frameIndex = 0;
+          speed.value = states[stateId].duration;
+          render();
+        })
+      ));
+    }
+
+    function renderSprite() {
+      const state = states[selectedState];
+      sprite.style.backgroundPosition = backgroundPosition(state, frameIndex);
+      title.textContent = `Fiz / ${state.label}`;
+      meta.textContent = `${frameIndex + 1} / ${state.frames} frames`;
+      speedValue.textContent = `${speed.value}ms`;
+      scaleValue.textContent = `${scale.value}%`;
+      document.documentElement.style.setProperty("--scale", String(Number(scale.value) / 100));
+    }
+
+    function tick() {
+      const state = states[selectedState];
+      frameIndex = (frameIndex + 1) % state.frames;
+      renderSprite();
+    }
+
+    function restartTimer() {
+      window.clearInterval(timer);
+      if (!paused) {
+        timer = window.setInterval(tick, Number(speed.value));
+      }
+    }
+
+    function render() {
+      renderControls();
+      renderSprite();
+      restartTimer();
+    }
+
+    pauseButton.addEventListener("click", () => {
+      paused = !paused;
+      pauseButton.textContent = paused ? "Play" : "Pause";
+      pauseButton.setAttribute("aria-pressed", String(paused));
+      restartTimer();
+    });
+
+    stepButton.addEventListener("click", () => {
+      tick();
+    });
+
+    speed.addEventListener("input", () => {
+      renderSprite();
+      restartTimer();
+    });
+
+    scale.addEventListener("input", renderSprite);
+
+    render();
+  </script>
+</body>
+</html>
